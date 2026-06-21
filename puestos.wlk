@@ -1,10 +1,11 @@
 class Puesto{
-
     const utilizadoPor = []
+    const municipioApadrinante
 
     method puedeUsar(visitante)
 
     method esUsadoPor(visitante){
+        self.validarUso(visitante)
         utilizadoPor.add(visitante)
     }
     method validarUso(visitante){
@@ -19,16 +20,28 @@ class Puesto{
     method utilizoElPuesto(visitante){
         return utilizadoPor.contains(visitante)
     }
+
+    method municipioApadrinante(){
+        return municipioApadrinante
+    }
+
+    method esApadrinadoPor(municipio){
+        return municipio == municipioApadrinante
+    }
+
+    method cantRecaudada(){
+        return municipioApadrinante.cantRecaudada()
+    }
+
 }
 
 class PuestoInfantil inherits Puesto{
 
     override method puedeUsar(visitante){
-        return visitante.mayorDeEdad()
+        return visitante.menorDeEdad()
     }
 
     override method esUsadoPor(visitante){
-        self.validarUso(visitante)
         super(visitante)
         visitante.ganar(10)
     }
@@ -42,8 +55,20 @@ class PuestoComercial inherits Puesto{
     }
 
     override method esUsadoPor(visitante){
-        self.validarUso(visitante)
         super(visitante)
         visitante.gastar(costo)
+    }
+}
+
+class PuestoImpositivo inherits Puesto{
+
+    override method puedeUsar(visitante){
+        return visitante.resideEn(municipioApadrinante) and
+               visitante.poseeDeuda() and
+               visitante.puedePagarSuDeuda()
+    }
+    override method esUsadoPor(visitante){
+        super(visitante)
+        visitante.pagarMontoExigido()
     }
 }
