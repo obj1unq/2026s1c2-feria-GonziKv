@@ -1,4 +1,6 @@
 import feria.*
+import puestos.*
+import visitante.*
 
 describe "feria" {
 
@@ -9,73 +11,101 @@ describe "feria" {
 	
 	//Remedios es una visitante de  72 tiene 500 pesos disponible. 
 	//Para el punto 2: su deuda es de 700 y reside en Tigre	
-	//const remedios = 
+	const remedios = new Visitante(edad = 72, dinero = 500)
 	
 	//Manuel es un visitante de 7 años y tiene 30 pesos, 
 	//Para el punto 2: no tiene deuda (es 0) y reside en Quilmes
-	//const manuel = 
+	const manuel = new Visitante(edad = 7, dinero = 30)
 	
 	//Martin es un visitante de 16 años y tiene 120 pesos .
 	//Para el punto 2: tiene 80 de deuda y reside en San Martin
-	//const martin = 
+	const martin = new Visitante(edad = 16, dinero =120)
 	
-	
-	//const arte = //Un puesto infantil, para la segunda parte su municipio es San Martin
-	//const dardos = //un puesto comercial de costo 50, para la segunda parte el municipio es San Martín
+	//Un puesto infantil, para la segunda parte su municipio es San Martin
+	const arte = new PuestoInfantil()
 
-	//const feriaAzurduy = // una feria con los puestos de arte y dardos 
+	//un puesto comercial de costo 50, para la segunda parte el municipio es San Martín
+	const dardos = new PuestoComercial(costo = 50)
+	
+	// una feria con los puestos de arte y dardos
+	const feriaAzurduy = new Feria(puestos = #{arte, dardos})
 	
 	//const puestoTigre = //un puesto impositivo del municipio de tigre 
 	//const puestoSanMartin = //un puesto impositivo del municipio de san Martin
 	//const puestoQuilmes = //un puesto impositivo del municipio de quilmes
 	
-/* 	
+ 	
  	 test "1.1.a se puede visitar?" {
 		//asegurarse que arte NO puede ser usado por remedios
+		assert.notThat(arte.puedeUsar(remedios))
 		//asegurarse que arte puede ser usado por manuel
+		assert.that(arte.puedeUsar(manuel))
 		//asegurarse que arte puede ser usado por martin
+		assert.that(arte.puedeUsar(martin))
 		
 		//asegurarse que dardos puede ser usado por remedios
+		assert.that(dardos.puedeUsar(remedios))
 		//asegurarse que dardos NO puede ser usado por manuel
+		assert.notThat(dardos.puedeUsar(manuel))
 		//asegurarse que dardos puede ser usado por martin
+		assert.that(dardos.puedeUsar(martin))
 		
 	}
-*/		
+	
 
-/*  
+ 
 	test "1.1.b saber puestos visitables" {
 		//asegurarse que dardos es el unico puesto que puede usar remedios en la feria azurduy
+		assert.equals(#{dardos}, feriaAzurduy.puestosUsablesPor(remedios))
 		//asegurarse que arte es el unico puesto que puede usar maniuel en la feria azurduy
+		assert.equals(#{arte}, feriaAzurduy.puestosUsablesPor(manuel))
 		//asegurarse que dardos y artes son los puestos que puede martin en la feria azurduy
+		assert.equals(#{dardos, arte}, feriaAzurduy.puestosUsablesPor(martin))
 	}
-*/	
-/* 	
+	
+
 	test "1.2.a efectos de usar" {
-		// hacer que el puesto de dardos sea usado por remedios. 
+		// hacer que el puesto de dardos sea usado por remedios.
+		dardos.esUsadoPor(remedios)
 		// hacer que el puesto de arte sea usado por remedios (NO SE PUEDE!)
-		// el puesto de dardos sea usado por manuel (NO SE PUEDE!) 
-		// hacer que el puesto de arte sea usado por manuel 
-		// hacer que el puesto de dardos sea usado por martin. 
+		assert.throwsException({arte.esUsadoPor(remedios)})
+		// el puesto de dardos sea usado por manuel (NO SE PUEDE!)
+		assert.throwsException({dardos.esUsadoPor(manuel)})
+		// hacer que el puesto de arte sea usado por manuel
+		arte.esUsadoPor(manuel)
+		// hacer que el puesto de dardos sea usado por martin.
+		dardos.esUsadoPor(martin)
 		// hacer que el puesto de arte sea usado por martin
-		//
+		arte.esUsadoPor(martin)
+
+		//asserts
 		//comprobar que el dinero de remedios es 450
+		assert.equals(450, remedios.dinero())
 		//comprobar que el dinero de manuel es  40
+		assert.equals(40, manuel.dinero())
 		//comprobar que el dinero de martín es 80
+		assert.equals(80, martin.dinero())
 		//comprobar que el puesto de arte fue usado por martin y manuel
+		assert.equals([manuel, martin], arte.fueUsadoPor())
 		//comprobar que el puesto de dardos due usados por remedios y martin
+		assert.equals([remedios, martin], dardos.fueUsadoPor())
 		
 	}
-*/
-/*	
+
+	
 	test "1.2.b saber si se usó o no la feria" {
-	// hacer que el puesto de dardos sea usado por remedios. 
+	// hacer que el puesto de dardos sea usado por remedios.
+	dardos.esUsadoPor(remedios) 
 	// hacer que el puesto de dardos sea usado por manuel (NO SE PUEDE!)
+	assert.throwsException({dardos.esUsadoPor(manuel)})
 	// revisar que remedios usó la feria azurduy
+	feriaAzurduy.participoDeLaFeria(remedios)
 	// revisar que manuel NO usó la feria azurduy
+	feriaAzurduy.participoDeLaFeria(manuel)
 	// revisar que martin NO uso la feria azurduy
- 	
+	feriaAzurduy.participoDeLaFeria(martin)
  	}
- */
+ 
  /* 	
  	test "2.1 monto exigible y puestos impositivos visitables" {
  		
